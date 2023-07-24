@@ -3,30 +3,40 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Simulation { //reading item data and filling up the rockets
-
+public class Simulation {
     public ArrayList<Item> loadItems(String filename) {
         ArrayList<Item> items = new ArrayList<>();
         try {
             Scanner scanner = new Scanner(new FileReader(filename));
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] parts = line.split("=");
+                String eachItem = scanner.nextLine();
+                String[] separateValue = eachItem.split("=");
 
-                if (parts.length == 2) {
-                    String itemName = parts[0].trim(); //itemName
-                    int itemWeight = Integer.parseInt(parts[1].trim()); //itemWeight
-                    Item item = new Item(itemName, itemWeight);
-                    items.add(item);
-                }
+                Item item = new Item(itemName(separateValue), itemWeight(separateValue));
+                items.add(item);
+
             }
-
             scanner.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File not Found!");
+            System.out.println("Item does not exist!");
         }
         return items;
+    }
 
+    public String itemName(String[] separateValue) {
+        String itemName = null;
+        if (separateValue.length == 2) {
+            itemName = separateValue[0].trim();
+        }
+        return itemName;
+    }
+
+    public int itemWeight(String[] separateValue) {
+        int itemWeight = 0;
+        if (separateValue.length == 2) {
+            itemWeight = Integer.parseInt(separateValue[1].trim());
+        }
+        return itemWeight;
     }
 
     public ArrayList<Rocket> loadRocket(ArrayList<Item> items, Rocket rocketType) {
@@ -43,7 +53,6 @@ public class Simulation { //reading item data and filling up the rockets
         return rocket;
     }
 
-
     public int runSimulation(ArrayList<Rocket> rockets) {
         int totalBudget = 0;
 
@@ -56,5 +65,4 @@ public class Simulation { //reading item data and filling up the rockets
         }
         return totalBudget;
     }
-
 }
