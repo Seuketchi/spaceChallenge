@@ -2,6 +2,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.function.Supplier;
+
 
 public class Simulation {
     public ArrayList<Item> loadItems(String filename) {
@@ -39,18 +41,23 @@ public class Simulation {
         return itemWeight;
     }
 
-    public ArrayList<Rocket> loadRocket(ArrayList<Item> items, Rocket rocketType) {
+    public ArrayList<Rocket> loadRocket(ArrayList<Item> items, Supplier<Rocket> createRocket) {
         ArrayList<Rocket> rocket = new ArrayList<>();
         Rocket currentRocket = null;
-
         for (Item item : items) {
             if (currentRocket == null || !currentRocket.canCarry(item)) {
-                currentRocket = rocketType.equals(new U1()) ? new U1() : new U2();
+                currentRocket = createRocket.get();
                 rocket.add(currentRocket);
             }
             currentRocket.carry(item);
         }
         return rocket;
+    }
+    public ArrayList<Rocket> loadU1(ArrayList<Item> items) {
+        return loadRocket(items, U1::new);
+    }
+    public ArrayList<Rocket> loadU2(ArrayList<Item> items) {
+        return loadRocket(items, U2::new);
     }
 
     public int runSimulation(ArrayList<Rocket> rockets) {

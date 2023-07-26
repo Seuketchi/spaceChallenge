@@ -9,8 +9,8 @@ public class Main {
         ArrayList<Item> phase2Items =simulation.loadItems("src/phase2.txt");
 
         //load items in each phase
-        ArrayList<Rocket> u1Phase1Rockets = simulation.loadRocket(phase1Items, new U1());
-        ArrayList<Rocket> u1Phase2Rockets = simulation.loadRocket(phase2Items, new U1());
+        ArrayList<Rocket> u1Phase1Rockets = simulation.loadU1(phase1Items);
+        ArrayList<Rocket> u1Phase2Rockets = simulation.loadU1(phase2Items);
 
         //calculate budget for each phase and each rocket
         int u1Phase1Budget = simulation.runSimulation(u1Phase1Rockets);
@@ -19,8 +19,8 @@ public class Main {
         int u1Phase2Budget = simulation.runSimulation(u1Phase2Rockets);
         System.out.println("Total budget required for Phase-2 with U1 rockets: $" + u1Phase2Budget);
 
-        ArrayList<Rocket> u2Phase1Rockets = simulation.loadRocket(phase1Items, new U2());
-        ArrayList<Rocket> u2Phase2Rockets = simulation.loadRocket(phase2Items, new U2());
+        ArrayList<Rocket> u2Phase1Rockets = simulation.loadU2(phase1Items);
+        ArrayList<Rocket> u2Phase2Rockets = simulation.loadU2(phase2Items);
 
         int u2Phase1Budget = simulation.runSimulation(u2Phase1Rockets);
         System.out.println("Total budget required for Phase-1 with U2 rockets: $" + u2Phase1Budget);
